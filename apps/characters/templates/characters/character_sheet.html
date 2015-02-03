@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load character_tags %}
+
+{% block page_title %}DAF - Character Sheet{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <h2 class="page-header">{{ char.sheet.name }}</h2>
+        
+        <div style="position:relative; padding-left: 210px;">
+            <img src="{{ char.portrait }}" alt="{{ character.name }}" class="img-rounded" style="position:absolute; left:0; top:0;">
+                        
+            <table class="table">
+                <tr>
+                    <td>Paid Until</td>
+                    <td>{{ char.account.paidUntil|convert_date }}</td>
+                </tr>
+                <tr>
+                    <td>Corporation</td>
+                    <td>{{ char.info.corporation }}</td>
+                </tr>
+                <tr>
+                    <td>Alliance</td>
+                    <td>{{ char.info.alliance }}</td>
+                </tr>
+                <tr>
+                    <td>Location</td>
+                    <td>{{ char.info.lastKnownLocation }}</td>
+                </tr>
+                <tr>
+                    <td>Home</td>
+                    <td>{{ char.sheet.homeStationID|station_name }}</td>
+                </tr>
+                {% if char.sheet.jumpFatigue > 180 %}
+                <tr>
+                    <td>Jump Fatigue</td>
+                    <td>{{ char.sheet.jumpFatigue|jump_fatigue }}</td>
+                </tr>
+                {% endif %}
+                <tr>
+                    <td>Security Status</td>
+                    <td class="{% if char.info.securityStatus < 0%}text-danger{% else %}text-success{% endif %}">{{ char.info.securityStatus|floatformat:2 }}</td>
+                </tr>
+                <tr>
+                    <td>Balance</td>
+                    <td class="text-success">{{ char.sheet.balance|intcomma }} ISK</td>
+                </tr>
+                <tr>
+                    <td>Skillpoints</td>
+                    <td>{{ char.info.skillPoints|intcomma }}</td>
+                </tr>
+                
+                
+                {# colapsable implants #}
+                <tr class="accordion-toggle" data-toggle="collapse" data-target="#attributes">
+                    <td colspan="2" class="pointer">
+                        Attributes
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="hiddenRow">
+                        {% with skills|first as skill %}
+                        <div class="accordion-body collapse table-responsive" id="attributes">
+                        {% endwith %}
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <td>Perception</td>
+                                        <td>{{ char.sheet.attributes.perception }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Memory</td>
+                                        <td>{{ char.sheet.attributes.memory }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Willpower</td>
+                                        <td>{{ char.sheet.attributes.willpower }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Intelligence</td>
+                                        <td>{{ char.sheet.attributes.intelligence }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Charisma</td>
+                                        <td>{{ char.sheet.attributes.charisma }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Remap</td>
+                                        <td>{{ char.sheet.lastRespecDate|remap_available }}</td>
+                                    </tr>
+                                    {% if char.sheet.freeRespecs > 0 %}
+                                    <tr>
+                                        <td>Bonus Remaps</td>
+                                        <td>{{ char.sheet.freeRespecs }}</td>
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                
+                {# colapsable implants #}
+                <tr class="accordion-toggle" data-toggle="collapse" data-target="#implants">
+                    <td colspan="2" class="pointer">
+                        Implants
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="hiddenRow">
+                        {% with skills|first as skill %}
+                        <div class="accordion-body collapse table-responsive" id="implants">
+                        {% endwith %}
+                            <table class="table table-hover">
+                                <tbody>
+                                    {% for implant in char.sheet.implants %}
+                                    <tr>
+                                        <td>{{ implant.typeName }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>   
+                
+
+                
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

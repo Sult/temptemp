@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block page_title %}DAF - Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<p>
+    Public and nonpublic newsarticles will be shown here.
+    (Will come)    
+</p>
+{% else %}
+<div class="row">
+    <div class="col-md-6">
+        <p>
+            Place for public news bulletins
+        </p>
+        <p>
+            What? You dont have an account yet but do belong to Dry Atomic Fusion? Do not worry, registration is simple!<br>
+            <a href="{% url 'register_user' %}" class="btn btn-primary btn-md" role="button">Register</a>
+        </p>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

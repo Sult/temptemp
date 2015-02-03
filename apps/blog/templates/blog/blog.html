@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load add_css %}
+
+
+{% block page_title %}DAF - Blog{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 col-md-offset-1">
+        
+        {% for article in articles.object_list %}
+        <div>
+            <h2 class="page-header">{{ article.title }}</h2>
+            {{ article.body|safe }}
+            <p class="text-right"><i>Created {{ article.created }} by {{ article.author }}</i>&nbsp;&nbsp;&nbsp;<a href="#">Comments</a></p>
+            <br>
+            
+        </div>
+        {% endfor %}
+        
+        
+        {% load i18n %}
+        <div class="pagination">
+        {% if articles.has_previous %}
+        <a href="?{{ page_obj.previous_page_number.querystring }}" class="prev">&lsaquo;&lsaquo; {% trans "previous" %}</a>
+        {% endif %}
+        
+        {% if articles.pages|length != 1 %}
+            {% for page in articles.pages %}
+                {% if page %}
+                    {% ifequal page page_obj.number %}
+                        <span class="current page">{{ page }}</span>
+                    {% else %}
+                        <a href="?{{ page.querystring }}" class="page">{{ page }}</a>
+                    {% endifequal %}
+                {% else %}
+                    ...
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% if articles.has_next %}
+            <a href="?{{ page_obj.next_page_number.querystring }}" class="next">{% trans "next" %} &rsaquo;&rsaquo;</a>
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

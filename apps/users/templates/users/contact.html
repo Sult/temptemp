@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load add_css %}
+{% block page_title %}Heroes - Contact{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="page-header">Dry Atomic Fusion</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <p>
+            <br>
+            DRY-A is a Null Sec corp with NBSI Policy.<br>
+            <br>
+            Recruitment is now open by selective Appointment. If you try to send an app unannounced or without a FULL API then you will be rejected without being looked at. We dont advertise nor drop cans with adverts. If you are interested in joining then you may chat with any one of our members. Only by getting to know you first hand will you be considered a trial member.
+            <br>
+            <br>
+            We have a few basic principles that each of our members should adhere to.
+            <br><br>
+            Be respectful, kind and courteous in communication channels. Smacktalk will not be tolerated,
+            <br><br>
+            No Pirating
+            <br><br>
+            Respect the elders
+            <br><br>
+            *We abuse buttplugs as punishment*
+            <br>
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <h3>Contact Us</h3>
+        
+        {% if messages %}
+            {% include "messages.html" %}
+        {% else %}
+        <form action="{% url 'contact' %}" method="post">{% csrf_token %}
+            {% for field in contact_form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field|addcss:"form-control" }} <span class="form-errors">{{ field.errors.as_text}}</span>
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-default btn-sm">Send</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

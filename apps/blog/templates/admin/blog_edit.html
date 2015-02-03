@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load add_css %}
+
+
+{% block page_title %}DAF - Blog Admin{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 col-md-offset-1">
+        <h2 class="page-header">Create Article</h2>
+        
+        <form action="" method="post">{% csrf_token %}
+            {# load editor shizzle #}    
+            
+            
+            <div class="form-group">
+                <label>{{ form.title.label }}</label>
+                {{ form.title|addcss:"form-control" }} <span class="form-errors">{{ form.title.errors.as_text}}</span>
+            </div>
+            {{ form.media }}
+            {{ form.body }}
+            
+            {{ form.published.label }} {{ form.published }}
+            {{ form.public.label }} {{ form.public }}
+            
+            <button type="submit" class="btn btn-primary btn-sm pull-right">Save</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+  $.Editable.DEFAULTS.key = 'OB5D5upfzzrfvvB-8H-8I2C-21rs==';
+</script>
+{% endblock %}

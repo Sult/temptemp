@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block page_title %}DAF - Kill Log{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h2 class="page-header">{{ character.name }}'s Kill Log</h2>
+        
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Shiptype</th>
+                        <th>Victim</th>
+                        <th>Final Blow</th>
+                        <th>Location</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+        
+        
+        <p>Under development</p>
+        
+    </div>
+</div>
+{% endblock %}

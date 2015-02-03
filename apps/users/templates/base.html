@@ -1,0 +1,107 @@
+{% load staticfiles %}
+{% load usergroups %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Hans de Jong">
+    
+    <title>{% block page_title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'images/glyphicons_scope.png' %}">
+    
+    
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
+    <!-- Custom Fonts -->
+    <script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+<!--
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+-->
+    <link rel="stylesheet" type="text/css" href="{% static 'awesome-fonts/css/font-awesome.min.css' %}">
+    <!-- Extra css -->
+    {% block css %}{% endblock %}
+    {% block markitup %}{% endblock %}
+    
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            
+            <!-- Brand and toggle get grouped for better mobile display -->
+            {# Create a 3-stripe button when topnavbar gets to small (and yields the leftmenubar #}
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                {# left topbar link #}
+                <a class="navbar-brand" href="{% url 'index' %}"><strong>Dry Atomic Fusion</strong></a>
+            </div>
+            
+            
+            <!-- Top Menu Items -->
+            {# top menubar, used for mail notifications, logout/profile etc #}
+            <ul class="nav navbar-right top-nav">
+                {# add the top nav icon for mails #}
+                {% include 'nav_bar_mail.html' %}
+                
+                {# Important notifications//erros? #}
+                {% include "nav_bar_notifications.html" %}
+                
+                {# Usercontrol  #}
+                {% include 'nav_bar_user.html' %}
+                
+            </ul>
+            {# end top menubar #}    
+            
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            {# left nav bar #}
+            {% if user.is_authenticated %}
+                {% include "left_nav.html" %}
+            {% else %}
+                {% include "left_nav_guest.html" %}
+            {% endif %}
+        </nav>
+        <!-- /.navbar-collapse -->
+        
+        {# content page #}
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+            {% block content %}{% endblock %}
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    
+    <!-- Bootstrap Core JavaScript -->
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    {% block js %}{% endblock %}
+</body>
+</html>

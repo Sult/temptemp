@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load add_css %}
+{% load skilltree %}
+
+{% block page_title %}DAF - Skilltree{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <h2 class="page-header">Skilltree</h2>
+        
+        
+        <div class="table-responsive">
+            <table class="table table-hover">
+                
+                {% for group, skills in skilltree.items %}
+                <tr class="accordion-toggle" data-toggle="collapse" data-target="#{{ group|space_to_underscore }}">
+                    <td class="pointer">
+                        <strong>{{ group }}</strong>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="6" class="hiddenRow">
+                        {% with skills|first as skill %}
+                        <div class="accordion-body {% if skill|check_group:request.path != group %}collapse {% endif %}table-responsive" id="{{ group|space_to_underscore }}">
+                        {% endwith %}
+                            <table class="table table-hover">
+                                <tbody>
+                                    {% for skill in skills %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'skilltree' skill.id %}">{{ skill.typeName }}</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>   
+                {% endfor %}
+            </table>
+        </div>
+        <br>
+    </div>
+    
+    <div class="col-md-4 col-md-offset-1">
+        <h2 class="page-header">{{ skill.typeName }}</h2>
+        
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <tr>
+                    <td colspan="2">{{ skill.description|safe }}</td>
+                </tr>
+                <tr>
+                    <td>Group</td>
+                    <td>{{ skill.skillGroup.groupName }}</td>
+                </tr>
+                <tr>
+                    <td>Primary Attribute</td>
+                    <td>{{ skill.primaryAttribute.name|capfirst }}</td>
+                </tr>
+                <tr>
+                    <td>Secondary Attribute</td>
+                    <td>{{ skill.secondaryAttribute.name|capfirst }}</td>
+                </tr>
+                <tr>
+                    <td>Training Time Multiplier</td>
+                    <td>{{ skill.rank }}</td>
+                </tr>
+                
+                <tr>
+                    <td colspan="2">
+                        <strong>Requirements</strong>
+                    </td>
+                </tr>
+
+                {% for req in skill.required_skills.all %}
+                <tr>
+                    <td>{{ req.required }}</td>
+                    <td>{{ req.show_level }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

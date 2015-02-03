@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block page_title %}DAF - Market Transactions{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="page-header">Market Transactions of {{ character.name }}</h2>
+        
+        
+        {% if transactions %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                        <th>Client</th>
+                        <th>Where</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for t in transactions %}
+                    <tr>
+                        <td>{{ t.date }}</td>
+                        <td>{{ t.transaction.typeName }}</td>
+                        <td class="{% if t.transaction.transactionType == 'buy' %}text-danger{% else %}text-success{% endif %}">
+                            {% if t.transaction.transactionType == 'buy' %}-{% endif %}{{ t.transaction.price|intcomma }}
+                        </td>
+                        <td>{{ t.transaction.quantity|intcomma }}</td>
+                        <td class="{% if t.transaction.transactionType == 'buy' %}text-danger{% else %}text-success{% endif %}">
+                            {% if t.transaction.transactionType == 'buy' %}-{% endif %}{{ t.total|intcomma }}
+                        </td>
+                        <td>{{ t.transaction.clientName }}</td>
+                        <td>{{ t.transaction.stationName }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p>
+            You don't have any market transactions.
+        </p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

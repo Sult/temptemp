@@ -1,0 +1,13 @@
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav side-nav">
+        <li {% if request.path == "/" or request.path == "/register/" %} class="active" {% endif %}>
+            <a href="{% url 'index' %}"><i class="fa fa-fw fa-university"></i> Home</a>
+        </li>
+        <li {% if "/blog/" in request.path %} class="active" {% endif %} >
+            <a href="{% url 'blog' %}"><i class="fa fa-fw fa-comment"></i> Deno's Blog</a>
+        </li>
+        <li {% if request.path == "/contact/" %} class="active" {% endif %} >
+            <a href="{% url 'contact' %}"><i class="fa fa-fw fa-info"></i> Contact</a>
+        </li>
+    </ul>
+</div>

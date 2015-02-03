@@ -1,0 +1,118 @@
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+    <ul class="nav navbar-nav side-nav">
+        <li {% if request.path == "/" %} class="active" {% endif %} >
+            <a href="{% url 'index' %}"><i class="fa fa-fw fa-university"></i> News</a>
+        </li>
+        <li {% if "/blog/" in request.path %} class="active" {% endif %} >
+            <a href="{% url 'blog' %}"><i class="fa fa-fw fa-comment"></i> Deno's Blog</a>
+        </li>
+        <li {% if "/forum/" in request.path %} class="active" {% endif %} >
+            <a href="#"><i class="fa fa-fw fa-tags"></i> Forum</a>
+        </li>
+        <li {% if request.path == "/characters/" %} class="active" {% endif %} >
+            <a href="{% url 'characters' %}"><i class="fa fa-fw fa-users"></i> Characters</a>
+        </li>
+        <li>
+    {% if "charpk" in request.session %}
+        <li>
+            &nbsp;
+        </li>
+        {% if request.session.acces.characterInfo %}
+        <li {% if request.path == "/character/" %} class="active" {% endif %}>
+            <a href="{% url 'character_sheet' %}"><i class="fa fa-fw fa-user"></i> Character Sheet</a>
+        </li>
+        {% endif %}
+        {% if request.session.acces.characterSheet %}
+        <li {% if request.path == "/character/skills/" %} class="active" {% endif %}>
+            <a href="{% url 'character_skills' %}"><i class="fa fa-fw fa-book"></i> Skills</a>
+        </li>
+        {% endif %}
+        {% if request.session.acces.characterSheet %}
+        <li {% if request.path == "/character/killboard/" %} class="active" {% endif %}>
+            <a href="{% url 'character_killboard' %}"><i class="fa fa-fw fa-fighter-jet"></i> Killboard</a>
+        </li>
+        {% endif %}
+        {% if request.session.acces.wallet %}
+        <li {% if "/market/" in request.path or "/wallet/" in request.path %} class="active" {% endif %}>
+            <a href="javascript:;" data-toggle="collapse" data-target="#wallet"><i class="fa fa-fw fa-dollar"></i> Wallet <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="wallet" {% if '/market/' not in request.path and '/wallet/' not in request.path %} class="collapse" {% endif %}>
+                {% if request.session.acces.walletJournal %}
+                <li>
+                    <a href="{% url 'wallet_journal' %}"><i class="fa fa-fw fa-line-chart"></i> Journal</a>
+                </li>
+                {% endif %}
+                {% if request.session.acces.walletTransactions %}
+                <li>
+                    <a href="{% url 'market_transactions' %}"><i class="fa fa-fw fa-bar-chart"></i> Transactions</a>
+                </li>
+                {% endif %}
+<!--
+                {% if request.session.acces.marketOrders %}
+                <li>
+                    <a href=" url 'market_orders' "><i class="fa fa-fw fa-pie-chart"></i> Market Orders</a>
+                </li>
+                {% endif %}
+-->
+            </ul>
+        </li>
+<!--
+        {% endif %}
+        
+        
+-->
+    {% endif %} {#For if request.session.charpk #}
+        
+        <li>
+            &nbsp;
+        </li>
+        <li {% if "/library/" in request.path %} class="active" {% endif %} >
+            <a href="javascript:;" data-toggle="collapse" data-target="#library"><i class="fa fa-fw fa-folder-open-o"></i> Library<i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="library" class="{% if not '/library/' in request.path %}collapse{% endif %}">
+                <li>
+                    <a href="{% url 'tree' %}" ><i class="fa fa-fw fa-book"></i> Skilltree </a>
+                </li>
+            </ul>
+        </li>
+        
+        {% comment %}
+        <li {% if request.path == "/training/" %} class="active" {% endif %} >
+            <a href="#"><i class="fa fa-fw fa-fighter-jet"></i> Training</a>
+        </li>
+        <li>
+            <a href="charts.html"><i class="fa fa-fw fa-fighter-jet"></i> Hangar</a>
+        </li>
+        <li>
+            <a href="tables.html"><i class="fa fa-fw fa-truck"></i> Storage</a>
+        </li>
+        <li>
+            <a href="forms.html"><i class="fa fa-fw fa-plane"></i> Travel</a>
+        </li>
+        <li>
+            <a href="bootstrap-elements.html"><i class="fa fa-fw fa-shopping-cart"></i> Shop</a>
+        </li>
+        <li>
+            <a href="bootstrap-grid.html"><i class="fa fa-fw fa-cogs"></i> Factory</a>
+        </li>
+        <li>
+            <a href="javascript:;" data-toggle="collapse" data-target="#information"><i class="fa fa-fw fa-book"></i> Information <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="information" class="collapse">
+                <li>
+                    <a href="#" target="_blank"><i class="fa fa-fw fa-search"></i> library</a>
+                </li>
+                <li>
+                    <a href="#">Dropdown Item</a>
+                </li>
+            </ul>
+        </li>
+<!--
+            <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
+-->
+        
+        </li>
+        
+        <li>
+            <a href="blank-page.html"> Blank Page</a>
+        </li>
+        {% endcomment %}
+    </ul>
+</div>

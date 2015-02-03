@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load add_css %}
+{% load humanize %}
+
+{% block page_title %}DAF - Characters{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="page-header">Characters</h2>
+        {% if characters %}
+            
+            {% for group in characters|group_by:3 %}
+            <div class="row">
+                {% for character in group %}
+                    <div class="col-md-4 v-offset-bottom-4 pointer" onclick="location.href='{% url 'select_character' character.pk %}';">
+                        <div style="position:relative; padding-left: 138px;">
+                            <img src="{{ character.portrait }}" alt="{{ character.name }}" style="position:absolute; left:0; top:0;{% if request.session.charpk == character.pk %}outline: 6px solid #5cb85c;{% endif %}">
+                        
+                            <table class="table">
+                                <tr>
+                                    <td> <strong>{{ character.name }}</strong></td>
+                                </tr>
+                                <tr>
+                                    <td> {{ character.corporationName }}</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="{% url 'apies' %}?pk={{ character.api.pk }}"> Manage API</a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        
+        {% else %}
+        <p>
+            You do not have any APIs entered yet.
+        </p>
+        {% endif %}
+        <a href="#" class="btn btn-primary btn-md" role="button" data-toggle="modal" data-target="#ApiModal">Add API</a>
+        
+        
+    {% if members %}
+        <h2 class="page-header">Members</h2>    
+        {% for group in members|group_by:3 %}
+        <div class="row">
+            {% for character in group %}
+                <div class="col-md-4 v-offset-bottom-4 pointer" onclick="location.href='{% url 'select_character' character.pk %}';">
+                    <div style="position:relative; padding-left: 138px;">
+                        <img src="{{ character.portrait }}" alt="{{ character.name }}" style="position:absolute; left:0; top:0;{% if request.session.charpk == character.pk %}outline: 6px solid #5cb85c;{% endif %}">
+                    
+                        <table class="table">
+                            <tr>
+                                <td> <strong>{{ character.name }}</strong></td>
+                            </tr>
+                            <tr>
+                                <td> {{ character.corporationName }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    {% endif %}
+    </div>
+</div>
+
+
+{# Create add api modal #}
+{% include "apies/api_modal.html" %}
+{% endblock %}
+
+{# needed for errorhandeling form in modal #}
+{% block js%}
+{% if api_form.errors %}
+<script type="text/javascript">
+    $(function () {
+        $('#ApiModal').modal('show');
+    });
+</script>
+{% endif %}
+{% endblock %}

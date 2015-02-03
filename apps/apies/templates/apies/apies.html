@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load add_css %}
+
+{% block page_title %}DAF - API Control{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <h2 class="page-header">Manage Api</h2>
+        
+        {% if apies %}
+        <div class="table-responsive">
+            <table class="table table-hover">
+                
+                
+                {% for api in apies %}
+                <tr class="accordion-toggle" data-toggle="collapse" data-target="#{{ api.pk }}">
+                    <td class="pointer">
+                        <strong>
+                            {{ api.name }}
+                        </strong>
+                        
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="6" class="hiddenRow">
+                        <div class="accordion-body {% if request.GET.pk != api.pk_string %}collapse {% endif %}table-responsive" id="{{ api.pk }}">
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <td>Expires</td>
+                                        <td>{{ api.show_expires }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Key ID</td>
+                                        <td>{{ api.key }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Verification Code</td>
+                                        <td>{{ api.vcode }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" class="text-right"><a href="{% url 'update_api' api.pk %}">Update</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="delete" href="{% url 'delete_api' api.pk %}">Delete</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>   
+                {% endfor %}
+            </table>
+            {% else %}
+            <p>
+                You have currently no APIs added. 
+            </p>
+            {% endif %}
+            <a href="#" class="btn btn-primary btn-md" role="button" data-toggle="modal" data-target="#ApiModal">Add API</a>
+        </div>
+    </div>
+</div>
+
+
+{# Create add api modal #}
+{% include "apies/api_modal.html" %}
+{% endblock %}
+
+{# needed for errorhandeling form in modal #}
+{% block js%}
+<script type="text/javascript" src="{% static 'js/confirm_delete.js' %}"></script>
+{% if api_form.errors %}
+<script type="text/javascript">
+    $(function () {
+        $('#ApiModal').modal('show');
+    });
+</script>
+{% endif %}
+{% endblock %}

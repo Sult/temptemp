@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load character_tags %}
+
+{% block page_title %}DAF - Market Orders{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="page-header">Market Orders of {{ character.name }}</h2>
+        
+        
+        {% if orders %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Buy/Sell</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Station</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for o in orders %}
+                        {% if o.station != None %}
+                    <tr>
+                        <td>{{ o.date }}</td>
+                        <td>{{ o.tipe.typeName }}</td>
+                        <td>{% if o.order.bid %}Buy{% else %}Sell{% endif %}</td>
+                        <td>{% if o.order.bid %}{{ o.order.volEntered }}{% else %}{{ o.order.volRemaining }}/{{ o.order.volEntered }}{% endif %}</td>
+                        <td class="{% if o.order.bid %}text-danger{% else %}text-success{% endif %}">{{ o.each|intcomma }}</td>
+                        <td class="{% if o.order.bid %}text-danger{% else %}text-success{% endif %}">{% if o.order.bid %}-{% endif %}{{ o.order.price|intcomma }} ISK</td>
+                        <td>{{ o.station.stationName }}</td>
+                    </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p>
+            You don't have any running market order.
+        </p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
